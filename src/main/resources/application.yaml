@@ -1,0 +1,9 @@
+#spring:
+#  data:
+#    mongodb:
+#      uri: mongodb+srv://myUser:myPassword@cluster0.mongodb.net/myDatabase?retryWrites=true&w=majority
+#      port:
+#      host:
+#      username:
+#      password:
+#
