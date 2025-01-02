@@ -1,8 +1,11 @@
 package com.example.springBootFirst.controller;
 
 import com.example.springBootFirst.Entity.User;
+import com.example.springBootFirst.Repository.UserEntryRepo;
 import com.example.springBootFirst.service.UserService;
+import com.example.springBootFirst.service.WeatherService;
 import org.bson.types.ObjectId;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -16,10 +19,16 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final UserEntryRepo userEntryRepo;
+
+    @Autowired
+    private WeatherService weatherService;
 
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService,
+                          UserEntryRepo userEntryRepo) {
         this.userService = userService;
+        this.userEntryRepo = userEntryRepo;
     }
 
     @GetMapping
@@ -64,6 +73,14 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body("User with username '" + userName + "' not found.");
     }
+
+     @GetMapping
+     public ResponseEntity<?> greeting(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return new ResponseEntity<>("Hi"+ authentication.getName()+",Weather feels like"+weatherService.getWeather("Mumbai"), HttpStatus.OK);
+     }
+
+
 
 
 }
